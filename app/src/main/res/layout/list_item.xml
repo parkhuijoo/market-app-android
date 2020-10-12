@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_product"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginHorizontal="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="30dp">
+
+                <ImageView
+                    android:id="@+id/iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/shoes0" />
+                <FrameLayout
+                    android:layout_gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:gravity="center"
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Converse High Pink"
+                        android:textSize="17dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_marginHorizontal="30dp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="30dp"
+                        android:layout_gravity="bottom"/>
+                    <TextView
+                        android:id="@+id/tv_price"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$190"
+                        android:textSize="17dp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="30dp"
+                        android:layout_marginHorizontal="30dp"
+                        android:textColor="@color/red"
+                        android:layout_gravity="bottom|right"/>
+
+                </FrameLayout>
+                 </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>

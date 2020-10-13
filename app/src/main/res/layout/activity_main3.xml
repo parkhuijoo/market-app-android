@@ -28,6 +28,7 @@
 
     <TableRow android:weightSum="5">
         <ImageView
+            android:id="@+id/buy_image"
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="100dp"
@@ -42,6 +43,7 @@
 
             <TableRow>
                 <TextView
+                    android:id="@+id/buy_title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Adidas Superstar"
@@ -51,12 +53,23 @@
             </TableRow>
             <TableRow>
                 <TextView
+                    android:id="@+id/buy_price"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="$220"
                     android:textColor="@color/red"
                     android:textSize="20dp"
                     android:textStyle="bold" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/how_many"
+                    android:text="외 1건"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:textAlignment="textEnd"
+                    android:layout_marginEnd="20dp"/>
             </TableRow>
         </TableLayout>
     </TableRow>

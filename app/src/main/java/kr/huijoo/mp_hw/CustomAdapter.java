@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +15,12 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position) ;
+    }
+
+    private OnItemClickListener mListener = null;
 
     private ArrayList<Product> arrayList;
     private Context context;
@@ -44,7 +49,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 .into(holder.iv);
         holder.tv_title.setText(arrayList.get(position).getTitle());
         holder.tv_price.setText(arrayList.get(position).getPrice());
-
     }
 
     @Override
@@ -52,48 +56,32 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         return (arrayList!=null ? arrayList.size() : 0);
     }
 
-    //list_item 과 연동
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         ImageView iv;
         TextView tv_title;
         TextView tv_price;
 
-
-         CustomViewHolder(@NonNull View itemView) {
+        CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.iv = itemView.findViewById(R.id.iv);
             this.tv_title = itemView.findViewById(R.id.tv_title);
             this.tv_price = itemView.findViewById(R.id.tv_price);
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    int pos = getAdapterPosition();
-//                    if (pos!=RecyclerView.NO_POSITION){
-//                        if(mListener!=null){
-//                            mListener.onItemClick(view,pos);
-//                        }
-//                    }
-//                }
-//            });
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {
+                            mListener.onItemClick(v, pos);
+                        }
+                    }
+                }
+            });
         }
     }
-
-//    private OnItemClickListener mListener = null ;
-//
-//    public interface OnItemClickListener {
-//        void onItemClick(View v, int position) ;
-//    }
-//
-//    // OnItemClickListener 리스너 객체 참조를 어댑터에 전달하는 메서드
-//    public void setOnItemClickListener(OnItemClickListener listener) {
-//        this.mListener = listener ;
-//    }
-
-//
-//    public void setOnItemClickListener(OnItemClickListener listener) {
-//        this.mListener = listener ;
-//    }
-
 }

@@ -2,30 +2,22 @@ package kr.huijoo.mp_hw;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,15 +27,12 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Product> arrayList;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
-    private boolean mark = false;
+    private String lastSelected = "";
+    private ArrayList<String> atCart;
 
-    static final int REQ = 1 ;
-    ImageView img;
-    Button button1; //btn_addtocard
-    Button button2; //btn_buynow
-    ImageView imagelist[] = new ImageView[3]; //iv 개수 (iv = 카드뷰내의 상품이미)
-    boolean flag[] = new boolean[3]; //iv 개수
-
+    Button addToCart;
+    Button buyNow;
+    ConstraintLayout buttonBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +40,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.recyclerview_product);
+
         recyclerView.setHasFixedSize(true);
+        buttonBox = findViewById(R.id.buttonBox);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         arrayList = new ArrayList<>();
+        atCart = new ArrayList<>();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Product");
 
@@ -75,34 +67,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new CustomAdapter(arrayList,this);
+        CustomAdapter customAdapter = new CustomAdapter(arrayList,this);
+        customAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                if (lastSelected.equals(arrayList.get(position).getTitle())) {
+                    buttonBox.setVisibility(View.GONE);
+                    lastSelected = "";
+                    return;
+                } else {
+                    buttonBox.setVisibility(View.VISIBLE);
+                }
+                lastSelected = arrayList.get(position).getTitle();
+            }
+        });
+        adapter = customAdapter;
         recyclerView.setAdapter(adapter);
-
-//        CustomAdapter customAdapter = new CustomAdapter(arrayList,this);
-//        customAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int pos) {
-//                if(pos!=RecyclerView.NO_POSITION){
-//                    Toast.makeText(getApplicationContext(),"hi",Toast.LENGTH_LONG).show();
-//                    button1.setVisibility(button1.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
-//                    button2.setVisibility(button2.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-//                }
-//            }
-//        });
-
-
 
         ImageButton btn_cart = (ImageButton)findViewById(R.id.btn_cart);
         btn_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(MainActivity.this,MainActivity2.class);
-                startActivityForResult(intent1,REQ);
-                finish();
+                startActivity(intent1);
             }
         });
-        button1 = (Button)findViewById(R.id.btn_addtocart);
-        button2 = (Button)findViewById(R.id.btn_buynow1);
+        addToCart = (Button)findViewById(R.id.btn_addtocart);
+        buyNow = (Button)findViewById(R.id.btn_buynow1);
 //        button1.setVisibility(View.GONE);
 //        button2.setVisibility(View.GONE);
 
@@ -146,40 +137,22 @@ public class MainActivity extends AppCompatActivity {
 
 // putextra function
 
-
-        // itemclick을 기억했다가 flag같은걸 true로 바꿔주고 다른걸 누르면 그거만 true로 해주고 나머지는 다 false로 해야함, 그상황에서 버튼을 누르면 true인 정보만 옮겨준다.
-        button1.setOnClickListener(new View.OnClickListener() {
+        addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(MainActivity.this,MainActivity2.class);
-
+                atCart.add(lastSelected);
+                Intent intent = new Intent(MainActivity.this,MainActivity2.class);
+                startActivity(intent);
             }
         });
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(MainActivity.this,MainActivity2.class);
-                for (int i = 0; i<3; i++) { //iv 개수
-                    if(flag[i]){
-                        int id = getResources().getIdentifier("tv_title","id",getPackageName());
-                        TextView title = (TextView)findViewById(id);
-                        String string_id = title.getText().toString();
-                        intent1.putExtra("title",string_id);
-                        Toast.makeText(getApplicationContext(),"flag"+i,Toast.LENGTH_LONG).show();
-                    }
-                }
-                startActivityForResult(intent1,REQ);
-                finish();
+                Intent intent = new Intent(MainActivity.this,MainActivity3.class);
+                intent.putExtra("buyItems", new String[] {lastSelected});
+                startActivity(intent);
             }
         });
-//        button2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent1 = new Intent(MainActivity.this,MainActivity3.class);
-//                startActivityForResult(intent1,REQ);
-//                finish();
-//            }
-//        });
     }
 }

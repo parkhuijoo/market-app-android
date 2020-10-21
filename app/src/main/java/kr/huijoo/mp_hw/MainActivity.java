@@ -5,14 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,11 +26,27 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private String lastSelected = "";
-    private ArrayList<String> atCart;
+    private int REQUEST_TEST = 1;
+    final ArrayList<String> atCart = new ArrayList<>();
 
     Button addToCart;
     Button buyNow;
     ConstraintLayout buttonBox;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_TEST) {
+            if (resultCode == RESULT_OK) {
+                final String[] temp = data.getStringArrayExtra("modifiedCart");
+                atCart.clear();
+                for(int i = 0; i < temp.length; i++) {
+                    atCart.add(temp[i]);
+                }
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         arrayList = new ArrayList<>();
-        atCart = new ArrayList<>();
+
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Product");
 
@@ -67,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        CustomAdapter customAdapter = new CustomAdapter(arrayList,this);
+        final CustomAdapter customAdapter = new CustomAdapter(arrayList,this);
         customAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -88,61 +102,21 @@ public class MainActivity extends AppCompatActivity {
         btn_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(MainActivity.this,MainActivity2.class);
-                startActivity(intent1);
+                Intent intent = new Intent(MainActivity.this,MainActivity2.class);
+                intent.putExtra("cartItems", atCart.toArray(new String[atCart.size()]));
+                startActivityForResult(intent, REQUEST_TEST);
             }
         });
         addToCart = (Button)findViewById(R.id.btn_addtocart);
         buyNow = (Button)findViewById(R.id.btn_buynow1);
-//        button1.setVisibility(View.GONE);
-//        button2.setVisibility(View.GONE);
-
-
-
-//        recyclerView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                button1.setVisibility(button1.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-//                button2.setVisibility(button2.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-//            }
-//        });
-
-
-//        ImageView imageView = (ImageView)findViewById(R.id.iv);
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mark = true;
-//                button1.setVisibility(button1.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-//                button2.setVisibility(button2.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-//            }
-//        });
-
-
-//        for (int i = 0; i<3; i++){ //iv 개수
-//            final int INDEX;
-//            INDEX = i;
-//            int k = getResources().getIdentifier("iv", "id", getPackageName());
-//            flag[INDEX] = false;
-//            imagelist[INDEX] =(ImageView) findViewById(k);
-//            imagelist[INDEX].setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    flag[INDEX] = true;
-//                    button1.setVisibility(button1.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-//                    button2.setVisibility(button2.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-//                }
-//            });
-//        }
-
-// putextra function
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 atCart.add(lastSelected);
                 Intent intent = new Intent(MainActivity.this,MainActivity2.class);
-                startActivity(intent);
+                intent.putExtra("cartItems", atCart.toArray(new String[atCart.size()]));
+                startActivityForResult(intent, REQUEST_TEST);
             }
         });
 

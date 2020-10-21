@@ -31,14 +31,13 @@
         android:background="@drawable/button_radius"
         android:src="@drawable/ic_outline_shopping_cart_24" />
 
-
-<!--    button-->
     <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_below="@id/text_HOME"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:android="http://schemas.android.com/apk/res/android">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_product"
             android:layout_width="match_parent"
@@ -46,9 +45,9 @@
             android:layout_below="@+id/text_HOME"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="22dp"
-            android:layout_marginBottom="-1dp" />
+            android:paddingBottom="120dp"
+            android:clipToPadding="false"/>
     </ScrollView>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/buttonBox"
@@ -56,10 +55,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginTop="550dp"
+        android:layout_marginBottom="20dp"
         android:visibility="gone"
         tools:visibility="visible">
 
@@ -84,7 +83,6 @@
             tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </RelativeLayout>
 

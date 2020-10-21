@@ -2,7 +2,6 @@ package kr.huijoo.mp_hw;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,15 +11,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity3 extends AppCompatActivity {
@@ -32,6 +28,7 @@ public class MainActivity3 extends AppCompatActivity {
     TextView buyTitle;
     TextView buyPrice;
     TextView howMany;
+    TextView totalPriceText;
     ArrayList<Integer> prices;
     int totalPrice = 0;
 
@@ -52,6 +49,7 @@ public class MainActivity3 extends AppCompatActivity {
         buyTitle = this.findViewById(R.id.buy_title);
         buyPrice = this.findViewById(R.id.buy_price);
         howMany = this.findViewById(R.id.how_many);
+        totalPriceText = this.findViewById(R.id.totalPrice);
 
         howMany.setText("외 " + (buyItems.length - 1) + "건");
 
@@ -73,6 +71,7 @@ public class MainActivity3 extends AppCompatActivity {
                                 buyPrice.setText(product.getPrice());
                             }
                             totalPrice += Integer.parseInt(product.getPrice().substring(1));
+                            totalPriceText.setText(String.valueOf(totalPrice));
                             break;
                         }
                     }
@@ -81,7 +80,7 @@ public class MainActivity3 extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("MainActivity.java", String.valueOf(databaseError.toException()));
+                Log.e("MainActivity3.java", String.valueOf(databaseError.toException()));
             }
         });
 
@@ -90,15 +89,12 @@ public class MainActivity3 extends AppCompatActivity {
             public void onClick(View view) {
                 String contact = editcontact.getText().toString();
                 String address = editaddress.getText().toString();
-                Intent intent = new Intent(MainActivity3.this,MainActivity.class);
-//                Toast.makeText(getApplicationContext(),contact+"hi",Toast.LENGTH_LONG).show();
                 if(!contact.isEmpty()&&!address.isEmpty()){
-                    Toast.makeText(getApplicationContext(),contact+"님의 상품이 결제완료 되었습니다.\n"+address+"로 배달 예정입니다.",Toast.LENGTH_LONG).show();
-                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(),contact+"님의 상품이 결제완료 되었습니다.\n"+address+"로 배송할게요!",Toast.LENGTH_LONG).show();
                     finish();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(),"입력해주세요",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"모든 칸을 채워주세요!",Toast.LENGTH_LONG).show();
                 }
             }
         });

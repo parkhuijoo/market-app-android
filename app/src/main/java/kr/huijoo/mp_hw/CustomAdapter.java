@@ -32,16 +32,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     @NonNull
     @Override
-    //view holder를 최초로 만들어낸다.
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item,parent,false);
         CustomViewHolder holder = new CustomViewHolder(view);
-        //이거왜 뷰홀더아니고 커스텀 뷰홀더지?
         return holder;
     }
 
     @Override
-    //실제로 아이템을 매칭시켜주는 역할
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         final int pos = position;
         Glide.with(holder.itemView)

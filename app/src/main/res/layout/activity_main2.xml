@@ -41,127 +41,54 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <ScrollView
+            android:layout_below="@+id/text_CART"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_margin="0dp"
+            tools:ignore="RedundantNamespace">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_cartProduct"
+                android:layout_margin="0dp"
+                android:padding="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_margin="20dp"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/checkbox"
-                android:buttonTint="@color/colorPrimaryDark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|right"
-                android:layout_marginEnd="10dp" />
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/shoes1" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Adidas Superstar"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$220"
-                    android:textColor="@color/red"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-        </LinearLayout>
-        <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="20dp"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:buttonTint="@color/colorPrimaryDark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:layout_marginEnd="10dp" />
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/shoes1" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Adidas Superstar"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$220"
-                android:textColor="@color/red"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="50dp"
             android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/btn_buynow2"
-                android:layout_marginVertical="20dp"
-                android:layout_marginHorizontal="5dp"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="20dp"
                 android:background="@drawable/button_radius"
                 android:text="Buy now"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                tools:ignore="MissingConstraints" />
+
             <Button
                 android:id="@+id/btn_del"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="20dp"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="20dp"
                 android:background="@drawable/button_radius"
                 android:backgroundTint="@color/red"
                 android:text="Delete"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                tools:ignore="MissingConstraints" />
         </LinearLayout>
 
-
     </LinearLayout>
-
 
 </LinearLayout>

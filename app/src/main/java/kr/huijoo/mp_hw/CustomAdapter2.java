@@ -4,18 +4,25 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
-
+import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
-public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHolder>{
+public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.CustomViewHolder> {
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
+    }
+
+    private OnItemClickListener mListener = null;
+
     private ArrayList<Product> arrayList;
     private Context context;
+
 
     public CustomAdapter2(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
@@ -24,18 +31,31 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item,parent,false);
-        ViewHolder holder = new ViewHolder(view);
-
+    public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item2,parent,false);
+        CustomViewHolder holder = new CustomViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomViewHolder holder, final int position) {
         final int pos = position;
+        Glide.with(holder.itemView)
+                .load(arrayList.get(position).getImage())
+                .into(holder.iv2);
+        holder.tv_title2.setText(arrayList.get(position).getTitle());
+        holder.tv_price2.setText(arrayList.get(position).getPrice());
+        holder.checkBox.setChecked(arrayList.get(position).isSelected());
+        holder.checkBox.setTag(arrayList.get(position));
 
-
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                CheckBox cb = (CheckBox) v;
+                Product product = (Product) cb.getTag();
+                product.setSelected(cb.isChecked());
+                arrayList.get(position).setSelected(cb.isChecked());
+            }
+        });
     }
 
     @Override
@@ -43,16 +63,42 @@ public class CustomAdapter2 extends RecyclerView.Adapter<CustomAdapter2.ViewHold
         return (arrayList!=null ? arrayList.size() : 0);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public CardView cardView;
-        public Button btn_delete;
-        public CheckBox checkBox;
+    public Product getItem(int i){
+        return arrayList.get(i);
+    }
 
-        public ViewHolder(@NonNull View itemView) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
+    public class CustomViewHolder extends RecyclerView.ViewHolder {
+        ImageView iv2;
+        TextView tv_title2;
+        TextView tv_price2;
+        CheckBox checkBox;
+
+        CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardView = (CardView)itemView.findViewById(R.id.cv_product);
-            btn_delete = (Button) itemView.findViewById(R.id.btn_del);
-            checkBox = (CheckBox) itemView.findViewById(R.id.checkbox);
+            this.iv2 = itemView.findViewById(R.id.iv2);
+            this.tv_title2 = itemView.findViewById(R.id.tv_title2);
+            this.tv_price2 = itemView.findViewById(R.id.tv_price2);
+            this.checkBox = itemView.findViewById(R.id.checkbox);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {
+                            mListener.onItemClick(v, pos);
+                        }
+                    }
+                }
+            });
+        }
+
+        public ArrayList<Product> getarrayList(){
+            return arrayList;
         }
     }
 }

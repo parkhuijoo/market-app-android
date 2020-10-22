@@ -54,6 +54,7 @@
 ##### 1. 첫번째 화면 / 상품 선택 페이지
 
 - 앱에 접속하면 가장 먼저 보이는 화면, Firebase DB 정보를 리사이클러뷰에 담아서 보여줌
+  <img width="250" src="https://github.com/parkhuijoo/market-app-android/blob/main/imgs/1.png">
 
 - 원하는 상품을 선택할 경우 하단에 장바구니, 구매 버튼이 노출
 

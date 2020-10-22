@@ -90,7 +90,7 @@ public class MainActivity3 extends AppCompatActivity {
                 String contact = editcontact.getText().toString();
                 String address = editaddress.getText().toString();
                 if(!contact.isEmpty()&&!address.isEmpty()){
-                    Toast.makeText(getApplicationContext(),contact+"님의 상품이 결제완료 되었습니다.\n"+address+"로 배송할게요!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),contact+"님의 상품이 결제완료 되었습니다.\n"+address+"(으)로 배송할게요!",Toast.LENGTH_LONG).show();
                     finish();
                 }
                 else{
